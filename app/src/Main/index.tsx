@@ -20,6 +20,11 @@ export function Main() {
 
   function handleSaveTable(table: string) {
     setSelectTable(table);
+    setTableModalVisible(false);
+  }
+
+  function handleCancelOrder() {
+    setSelectTable('');
   }
 
   return (
@@ -27,7 +32,10 @@ export function Main() {
     <>
       <Container>
 
-        <Header />
+        <Header
+          selectedTable={selectedTable}
+          onCancelOrder={handleCancelOrder}
+        />
 
         <CategoriesContainer>
           <Categories />
