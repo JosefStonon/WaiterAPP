@@ -13,10 +13,18 @@ import { Menu } from '../components/Menu';
 import { Button } from '../components/Button';
 import { TableModal } from '../components/TableModal';
 import { useState } from 'react';
+import { Cart } from '../components/Cart';
+import { CartItem } from '../types/CartItem';
 
 export function Main() {
   const [isTableModalVisible, setTableModalVisible] = useState(false);
   const [selectedTable, setSelectTable] = useState('');
+  const [cartItems, setCartItems] = useState<CartItem[]>([
+    {
+      quantity: 1,
+      product: products[0]
+    }
+  ]);
 
   function handleSaveTable(table: string) {
     setSelectTable(table);
@@ -53,6 +61,10 @@ export function Main() {
             <Button onPress={() => setTableModalVisible(true)} >
             Novo Pedido
             </Button>
+          )}
+
+          {selectedTable && (
+            <Cart cartItems={cartItems}/>
           )}
         </FooterContainer>
       </Footer>
