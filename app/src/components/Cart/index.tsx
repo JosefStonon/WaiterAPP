@@ -21,7 +21,7 @@ export function Cart({cartItems}: CartProps) {
           <ProductContainer>
             <Image
               source={{
-                uri: `http://10.36.238.173:3001/uploads/${cartItem.product.imagePath}`,
+                uri: `http://192.168.5.13:3001/uploads/${cartItem.product.imagePath}`,
 
               }}
             />
