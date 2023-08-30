@@ -4,7 +4,9 @@ import {
   CategoriesContainer,
   MenuContainer,
   Footer,
-  FooterContainer }
+  FooterContainer,
+  CenteredContainer
+}
   from './styles';
 
 import { Header } from '../components/Header/index';
@@ -16,21 +18,26 @@ import { useState } from 'react';
 import { Cart } from '../components/Cart';
 import { CartItem } from '../types/CartItem';
 import { Product } from '../types/Products';
+import { ActivityIndicator } from 'react-native';
 
 
 export function Main() {
   const [isTableModalVisible, setTableModalVisible] = useState(false);
   const [selectedTable, setSelectTable] = useState('');
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [isLoading] = useState(true);
 
   function handleSaveTable(table: string) {
     setSelectTable(table);
     setTableModalVisible(false);
   }
 
-  function handleCancelOrder() {
+  function handleResetOrder() {
     setSelectTable('');
+    setCartItems([]);
   }
+
+
 
   function handleAddToCart(product: Product) {
     if(!selectedTable) {
@@ -49,7 +56,6 @@ export function Main() {
       const newCartItems = [...prevState];
       const item = newCartItems[itemIndex];
 
-
       newCartItems[itemIndex] = {
         ...item,
         quantity: item.quantity + 1,
@@ -57,7 +63,6 @@ export function Main() {
 
       return newCartItems;
     });
-
   }
 
   function handleDecrementItem(product: Product) {
@@ -71,20 +76,16 @@ export function Main() {
         newCartItem.splice(itemIndex, 1);
         return newCartItem;
       }
-
-
-
       newCartItem[itemIndex] = {
         ...item,
         quantity: item.quantity - 1,
       };
 
       return newCartItem;
-
-
-
     });
   }
+
+
 
   return (
 
@@ -93,23 +94,35 @@ export function Main() {
 
         <Header
           selectedTable={selectedTable}
-          onCancelOrder={handleCancelOrder}
+          onCancelOrder={handleResetOrder}
         />
 
-        <CategoriesContainer>
-          <Categories />
-        </CategoriesContainer>
+        {isLoading && (
+          <CenteredContainer>
+            <ActivityIndicator color='#D73035' size='large' />
+          </CenteredContainer>
+        )}
 
-        <MenuContainer>
-          <Menu onAddToCart={handleAddToCart} />
-        </MenuContainer>
+        {!isLoading && (
+          <>
+            <CategoriesContainer>
+              <Categories />
+            </CategoriesContainer>
+
+            <MenuContainer>
+              <Menu onAddToCart={handleAddToCart} />
+            </MenuContainer>
+          </>
+        )}
 
       </Container>
 
       <Footer>
         <FooterContainer>
           {!selectedTable && (
-            <Button onPress={() => setTableModalVisible(true)} >
+            <Button onPress={() => setTableModalVisible(true)}
+              disabled={isLoading}
+            >
             Novo Pedido
             </Button>
           )}
@@ -119,6 +132,7 @@ export function Main() {
               cartItems={cartItems}
               onAdd={handleAddToCart}
               onDecrement={handleDecrementItem}
+              onConfirmOrder={handleResetOrder}
             />
           )}
         </FooterContainer>
