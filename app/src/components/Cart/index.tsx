@@ -6,64 +6,89 @@ import { formatCurrency } from '../../utils/formatCurrency';
 import { PlusCircle } from '../Icons/PlusCircle';
 import { MinusCircle } from '../Icons/MinusCircle';
 import { Button } from '../Button';
+import { Product } from '../../types/Products';
+
+
 
 interface CartProps {
   cartItems: CartItem[];
+  onAdd: (product: Product) => void;
+  onDecrement: (product: Product) => void;
 }
 
-export function Cart({cartItems}: CartProps) {
+export function Cart({cartItems, onAdd, onDecrement}: CartProps) {
+
+  const total = cartItems.reduce((acc, cartItem) => {
+    return acc + cartItem.quantity * cartItem.product.price;
+  }, 0);
+
   return (
+
     <>
-      <FlatList
-        data={cartItems}
-        keyExtractor={cartItem => cartItem.product._id}
-        showsVerticalScrollIndicator={false}
-        style={{marginBottom: 20, maxHeight: 150}}
-        renderItem={({item: cartItem}) => (
-          <Item>
-            <ProductContainer>
-              <Image
-                source={{
-                  uri: `http://192.168.5.13:3001/uploads/${cartItem.product.imagePath}`,
+      {cartItems.length > 0 && (
+        <FlatList
+          data={cartItems}
+          keyExtractor={cartItem => cartItem.product._id}
+          showsVerticalScrollIndicator={false}
+          style={{marginBottom: 20, maxHeight: 150}}
+          renderItem={({item: cartItem}) => (
+            <Item>
+              <ProductContainer>
+                <Image
+                  source={{
+                    uri: `http://192.168.5.13:3001/uploads/${cartItem.product.imagePath}`,
 
-                }}
-              />
-              <QuantityContainer>
-                <Text size={14} color='#666'>
-                  {cartItem.quantity}X
-                </Text>
-              </QuantityContainer>
+                  }}
+                />
+                <QuantityContainer>
+                  <Text size={14} color='#666'>
+                    {cartItem.quantity}X
+                  </Text>
+                </QuantityContainer>
 
-              <ProductDetails>
-                <Text size={14} weight='600'>{cartItem.product.name}</Text>
-                <Text size={14} color='#666' style={{marginTop: 4}}>{formatCurrency(cartItem.product.price)}</Text>
-              </ProductDetails>
+                <ProductDetails>
+                  <Text size={14} weight='600'>{cartItem.product.name}</Text>
+                  <Text size={14} color='#666' style={{marginTop: 4}}>{formatCurrency(cartItem.product.price)}</Text>
+                </ProductDetails>
 
-            </ProductContainer>
+              </ProductContainer>
 
-            <Actions>
-              <TouchableOpacity style={{marginRight: 24}}>
-                <PlusCircle />
-              </TouchableOpacity>
+              <Actions>
+                <TouchableOpacity
+                  style={{marginRight: 24}}
+                  onPress={() => onAdd(cartItem.product)}
+                >
+                  <PlusCircle />
+                </TouchableOpacity>
 
-              <TouchableOpacity>
-                <MinusCircle />
-              </TouchableOpacity>
+                <TouchableOpacity onPress={()=> onDecrement(cartItem.product)}>
+                  <MinusCircle />
+                </TouchableOpacity>
 
-            </Actions>
+              </Actions>
 
 
-          </Item>
-        )}
-      />
+            </Item>
+          )}
+        />
+      )}
 
       <Sumary>
         <TotalContainer>
-          <Text color='#666'>Total</Text>
-          <Text size={20} weight='600'>{formatCurrency(120)}</Text>
+          {cartItems.length > 0 ? (
+            <>
+              <Text color='#666'>Total</Text>
+              <Text size={20} weight='600'>{formatCurrency(total)}</Text>
+            </>
+          ) : (
+            <Text color='#999'>Seu carrinho esta vazio</Text>
+          )}
         </TotalContainer>
 
-        <Button onPress={() => alert('Confirmar pedido')}>
+        <Button
+          onPress={() => alert('Confirmar pedido')}
+          disabled={cartItems.length === 0}
+        >
           Confirmar Pedido
         </Button>
       </Sumary>
