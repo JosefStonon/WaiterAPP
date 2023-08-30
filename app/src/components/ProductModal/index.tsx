@@ -10,12 +10,19 @@ interface ProductModalProps {
   visible: boolean;
   onClose: () => void;
   product: null | Product;
+  onAddToCart: (product: Product) => void;
+
 }
 
-export function ProductModal({visible, onClose, product}: ProductModalProps) {
+export function ProductModal({visible, onClose, product, onAddToCart}: ProductModalProps) {
 
   if(!product) {
     return null;
+  }
+
+  function handleAddToCart() {
+    onAddToCart(product!);
+    onClose();
   }
 
   return (
@@ -28,7 +35,7 @@ export function ProductModal({visible, onClose, product}: ProductModalProps) {
 
       <Image
         source={{
-          uri: `http://10.36.238.173:3001/uploads/${product.imagePath}`,
+          uri: `http://192.168.5.13:3001/uploads/${product.imagePath}`,
         }}
       >
         <CloseButton onPress={onClose}>
@@ -71,12 +78,12 @@ export function ProductModal({visible, onClose, product}: ProductModalProps) {
       <Footer>
         <FooterContainer>
           <PriceContainer>
-            <Text color='#666'></Text>
+            <Text color='#666'>Preço</Text>
             <Text size={20} weight='600'>{formatCurrency(product.price)}</Text>
           </PriceContainer>
         </FooterContainer>
 
-        <Button onPress={() => alert('adicionar ao pedido')}>Adicionar ao pedido</Button>
+        <Button onPress={handleAddToCart}>Adicionar ao pedido</Button>
       </Footer>
     </Modal>
   );

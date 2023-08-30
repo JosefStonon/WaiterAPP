@@ -121,6 +121,100 @@ export const products = [
         '_id': '63c336d91fcbdc6bca0189b9'
       }
     ],
-  }
+  },
+
+
+  {
+    '_id': '63c367d91fcbdc6bca0189b5',
+    'name': 'X-Burguer',
+    'description': 'Duplo',
+    'imagePath': '1673737945681-burger-molho-especial.png',
+    'price': 30,
+    'ingredients': [
+      {
+        'name': 'laranja',
+        'icon': '🧀',
+        '_id': '63c336d91fcbdc6bca0189b6'
+      },
+      {
+        'name': 'Laranja',
+        'icon': '🧀',
+        '_id': '63c336d91fcbdc6bca0189b7'
+      },
+      {
+        'name': 'Gouda',
+        'icon': '🧀',
+        '_id': '63c336d91fcbdc6bca0189b8'
+      },
+      {
+        'name': 'Brie',
+        'icon': '🧀',
+        '_id': '63c336d91fcbdc6bca0189b9'
+      }
+    ],
+  },
+
+
+  {
+    '_id': '63c336d46fcbdc6bca0189b5',
+    'name': 'X-Burguer',
+    'description': 'Duplo',
+    'imagePath': '1673737945681-burger-molho-especial.png',
+    'price': 30,
+    'ingredients': [
+      {
+        'name': 'laranja',
+        'icon': '🧀',
+        '_id': '63c336d91fcbdc6bca0189b6'
+      },
+      {
+        'name': 'Laranja',
+        'icon': '🧀',
+        '_id': '63c336d91fcbdc6bca0189b7'
+      },
+      {
+        'name': 'Gouda',
+        'icon': '🧀',
+        '_id': '63c336d91fcbdc6bca0189b8'
+      },
+      {
+        'name': 'Brie',
+        'icon': '🧀',
+        '_id': '63c336d91fcbdc6bca0189b9'
+      }
+    ],
+  },
+
+  {
+    '_id': '63c336d91fcb76bca0189b5',
+    'name': 'X-Burguer',
+    'description': 'Duplo',
+    'imagePath': '1673737945681-burger-molho-especial.png',
+    'price': 30,
+    'ingredients': [
+      {
+        'name': 'laranja',
+        'icon': '🧀',
+        '_id': '63c336d91fcbdc6bca0189b6'
+      },
+      {
+        'name': 'Laranja',
+        'icon': '🧀',
+        '_id': '63c336d91fcbdc6bca0189b7'
+      },
+      {
+        'name': 'Gouda',
+        'icon': '🧀',
+        '_id': '63c336d91fcbdc6bca0189b8'
+      },
+      {
+        'name': 'Brie',
+        'icon': '🧀',
+        '_id': '63c336d91fcbdc6bca0189b9'
+      }
+    ],
+  },
+
+
 
 ];
