@@ -1,5 +1,4 @@
 
-import { set } from 'mongoose';
 import { FlatList } from 'react-native';
 
 import { useState } from 'react';
