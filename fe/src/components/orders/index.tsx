@@ -4,6 +4,8 @@ import { Order } from '../../types/Order';
 import { useEffect, useState } from 'react';
 import { api } from '../../utils/api';
 
+import socketIo from 'socket.io-client';
+
 
 
 
@@ -11,6 +13,17 @@ import { api } from '../../utils/api';
 
 export function Orders() {
   const [orders, setOrders] = useState<Order[]>([]);
+
+  useEffect(() => {
+    const socket = socketIo('http://localhost:3001', {
+      transports: ['websocket'],
+    });
+
+    socket.on('order@new', (order) => {
+      setOrders(prevState => prevState.concat(order));
+
+    });
+  }, []);
 
   useEffect(() => {
     api.get('/orders')
@@ -27,6 +40,15 @@ export function Orders() {
     setOrders((prevState) => prevState.filter(order => order._id !== orderId));
   }
 
+  function handleOrderStatusChange(orderId: string, status: Order['status']) {
+    setOrders((prevState) => prevState.map((order) => (
+      order._id === orderId
+        ? { ...order, status }
+        : order
+    )));
+  }
+
+
   return (
     <Container>
       <OrdersBoard
@@ -34,6 +56,7 @@ export function Orders() {
         title="Fila de espera"
         orders={waiting}
         onCancelOrder={ handleCancelOrder}
+        onChangeOrderStatus={handleOrderStatusChange}
       />
 
       <OrdersBoard
@@ -41,6 +64,7 @@ export function Orders() {
         title="Em preparação"
         orders={inProduction}
         onCancelOrder={ handleCancelOrder}
+        onChangeOrderStatus={handleOrderStatusChange}
 
       />
 
@@ -49,6 +73,7 @@ export function Orders() {
         title="Pronto"
         orders={done}
         onCancelOrder={ handleCancelOrder}
+        onChangeOrderStatus={handleOrderStatusChange}
 
       />
 
